@@ -3,15 +3,18 @@ using UnityEngine;
 public class GroundScroller : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
-    [SerializeField] private float groundWidth = 30f;
+    private float groundWidth;
+    private Vector2 startPosition;
+
+    void Start()
+    {
+        groundWidth = GetComponent<SpriteRenderer>().bounds.size.x;
+        startPosition = transform.position;
+    }
 
     void Update()
     {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
-
-        if (transform.position.x <= -groundWidth)
-        {
-            transform.position = (Vector2)transform.position + new Vector2(groundWidth * 2f, 0);
-        }
+        float newPosition = Mathf.Repeat(Time.time * speed, groundWidth);
+        transform.position = startPosition + Vector2.left * newPosition;
     }
 }

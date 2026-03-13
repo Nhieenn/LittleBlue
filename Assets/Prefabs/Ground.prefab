@@ -167,5 +167,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f07c1e3fb7b9742ac4e963137c9008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
-  speed: 5
+  speed: 10
   groundWidth: 30
