@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 30, y: 1, z: 1}
+  m_LocalScale: {x: 50, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -151,6 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4896ac40f58264e8e159a7943e8fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
-  speed: 5
+  speed: 10
   resetPosition: -20
   startPosition: 20
