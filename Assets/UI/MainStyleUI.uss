@@ -1,0 +1,44 @@
+.score-label {
+    font-size: 40px;
+    color: white;
+    -unity-font-style: bold;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.game-over-panel {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+}
+
+.title-label {
+    font-size: 80px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 40px;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: red;
+}
+
+.restart-button {
+    font-size: 40px;
+    padding: 15px 40px;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    transition-duration: 0.2s;
+}
+
+.restart-button:hover {
+    background-color: yellow;
+    scale: 1.1;
+}
+
+.restart-button:active {
+    background-color: gray;
+    scale: 0.9;
+}

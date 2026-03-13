@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainStyleUI.uss?fileID=7433441132597879392&amp;guid=48e8435b857b82447a6032dad326be0c&amp;type=3#MainStyleUI"/>
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Label text="Score: 0" name="ScoreLabel" class="score-label"/>
+        <ui:VisualElement name="GameOverPanel" class="game-over-panel" style="display: none;">
+            <ui:Label text="GAME OVER" class="title-label"/>
+            <ui:Button text="RESTART" name="RestartButton" class="restart-button"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

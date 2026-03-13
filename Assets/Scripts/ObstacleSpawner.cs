@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ObstacleSpawner : MonoBehaviour
 {
@@ -7,20 +8,39 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private float minRandomDelay = -0.5f;
     [SerializeField] private float maxRandomDelay = 1f;
 
+    public static ObstacleSpawner Instance { get; private set; }
+    private ObjectPool<GameObject> pool;
     private float nextSpawnTime;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start()
+    {
+        pool = new ObjectPool<GameObject>(
+            createFunc: () => Instantiate(obstaclePrefab, transform.position, Quaternion.identity),
+            actionOnGet: (obj) => { obj.transform.position = transform.position; obj.SetActive(true); },
+            actionOnRelease: (obj) => obj.SetActive(false),
+            actionOnDestroy: (obj) => Destroy(obj),
+            collectionCheck: false,
+            defaultCapacity: 5,
+            maxSize: 10
+        );
+    }
 
     void Update()
     {
         if (Time.time >= nextSpawnTime)
         {
-            SpawnObstacle();
-            float randomDelay = Random.Range(minRandomDelay, maxRandomDelay);
-            nextSpawnTime = Time.time + baseSpawnRate + randomDelay;
+            pool.Get();
+            nextSpawnTime = Time.time + baseSpawnRate + Random.Range(minRandomDelay, maxRandomDelay);
         }
     }
 
-    private void SpawnObstacle()
+    public void ReleaseObstacle(GameObject obj)
     {
-        Instantiate(obstaclePrefab, transform.position, Quaternion.identity);
+        pool.Release(obj);
     }
 }

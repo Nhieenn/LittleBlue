@@ -11,7 +11,7 @@ public class Obstacle : MonoBehaviour
 
         if (transform.position.x <= destroyX)
         {
-            Destroy(gameObject);
+            ObstacleSpawner.Instance.ReleaseObstacle(gameObject);
         }
     }
 }
