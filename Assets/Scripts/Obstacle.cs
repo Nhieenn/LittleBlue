@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float baseSpeed = 5f;
     [SerializeField] private float destroyX = -15f;
 
     void Update()
     {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        float currentSpeed = baseSpeed * GameManager.Instance.gameSpeed;
+        transform.Translate(Vector3.left * currentSpeed * Time.deltaTime);
 
         if (transform.position.x <= destroyX)
         {

@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class GroundScroller : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float baseSpeed = 5f;
     private float groundWidth;
+    private float currentDistance;
     private Vector2 startPosition;
 
     void Start()
@@ -14,7 +15,10 @@ public class GroundScroller : MonoBehaviour
 
     void Update()
     {
-        float newPosition = Mathf.Repeat(Time.time * speed, groundWidth);
+        float currentSpeed = baseSpeed * GameManager.Instance.gameSpeed;
+        currentDistance += currentSpeed * Time.deltaTime;
+
+        float newPosition = Mathf.Repeat(currentDistance, groundWidth);
         transform.position = startPosition + Vector2.left * newPosition;
     }
 }

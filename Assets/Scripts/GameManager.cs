@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private UIDocument uiDocument;
 
+    public float gameSpeed { get; private set; } = 1f;
+    [SerializeField] private float speedIncreaseRate = 0.025f;
+    [SerializeField] private float maxSpeed = 3f;
+
     private Label scoreLabel;
     private VisualElement gameOverPanel;
     private Button restartButton;
@@ -41,6 +45,7 @@ public class GameManager : MonoBehaviour
     {
         isGameOver = false;
         score = 0;
+        gameSpeed = 1f;
         gameOverPanel.style.display = DisplayStyle.None;
         Time.timeScale = 1f;
     }
@@ -49,7 +54,12 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameOver)
         {
-            score += Time.deltaTime * 10f;
+            if (gameSpeed < maxSpeed)
+            {
+                gameSpeed += speedIncreaseRate * Time.deltaTime;
+            }
+
+            score += Time.deltaTime * 10f * gameSpeed;
             scoreLabel.text = "Score: " + Mathf.FloorToInt(score).ToString();
         }
     }
