@@ -1,44 +1,110 @@
+﻿/* Tổng quan: Không dùng shadow, font Sans-Serif dày hơn */
+VisualElement {
+    font-size: 20px;
+}
+
+/* 1. Label Score (Góc trên trái) */
 .score-label {
-    font-size: 40px;
-    color: white;
+    font-size: 32px;
+    color: white; /* Trắng sạch sẽ */
     -unity-font-style: bold;
     position: absolute;
     left: 20px;
     top: 20px;
-    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 0;
+    text-shadow: none; /* QUAN TRỌNG: Loại bỏ bóng đổ cũ */
 }
 
+/* 2. Label High Score (Dưới Score) */
+.high-score-label {
+    font-size: 24px;
+    color: #FFD700; /* Vàng đậm sang hơn */
+    -unity-font-style: bold;
+    position: absolute;
+    left: 20px;
+    top: 60px; /* Layout xa hơn một chút cho thoáng */
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+}
+
+/* 3. Label NEW RECORD! (Dưới High Score) */
+.new-record-label {
+    font-size: 38px;
+    color: yellow; /* Mặc định là vàng */
+    -unity-font-style: bold;
+    position: absolute;
+    left: 20px;
+    top: 100px;
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+    display: none; /* Ẩn mặc định */
+}
+
+/* Class USS để code C# toggle hiệu ứng nhấp nháy */
+.new-record-blink-active {
+    color: #00FFFF; /* Cyan (màu của Player) */
+}
+
+/* 4. Màn hình Game Over (Centered) */
 .game-over-panel {
     flex-grow: 1;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.9); /* Nền tối hẳn */
     align-items: center;
     justify-content: center;
 }
 
 .title-label {
-    font-size: 80px;
+    font-size: 70px;
     color: white;
     -unity-font-style: bold;
-    margin-bottom: 40px;
-    -unity-text-outline-width: 2px;
-    -unity-text-outline-color: red;
+    margin-bottom: 30px;
 }
 
+.game-over-highscore-label {
+    font-size: 36px;
+    color: #FFD700;
+    -unity-font-style: bold;
+    margin-bottom: 50px;
+}
+
+/* 5. Nút Restart (Flat Design) */
 .restart-button {
-    font-size: 40px;
-    padding: 15px 40px;
+    font-size: 32px;
+    padding: 12px 40px;
     background-color: white;
     color: black;
-    border-radius: 10px;
-    transition-duration: 0.2s;
+    border-radius: 6px; /* Bo góc nhẹ */
+    transition-duration: 0.1s;
+    border-width: 0; /* Không viền */
 }
 
 .restart-button:hover {
-    background-color: yellow;
-    scale: 1.1;
+    background-color: #00FFFF; /* Màu Cyan khi hover */
 }
 
 .restart-button:active {
-    background-color: gray;
-    scale: 0.9;
+    scale: 0.95;
+    background-color: darkgray;
+}
+.main-menu-panel {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.game-title-label {
+    font-size: 80px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 20px;
+}
+
+.press-start-label {
+    font-size: 30px;
+    color: #00FFFF;
+    -unity-font-style: bold;
 }

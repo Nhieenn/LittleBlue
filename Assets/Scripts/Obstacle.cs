@@ -9,6 +9,7 @@ public class Obstacle : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.State != GameManager.GameState.Playing) return;
         float currentSpeed = baseSpeed * GameManager.Instance.gameSpeed;
         transform.Translate(Vector3.left * currentSpeed * Time.deltaTime);
 

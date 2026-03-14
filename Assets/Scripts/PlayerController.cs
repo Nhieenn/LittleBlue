@@ -10,11 +10,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.15f;
+    [SerializeField] private ParticleSystem dustParticles;
 
     private Rigidbody2D rb;
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
     private CinemachineImpulseSource impulseSource;
+    private bool wasGrounded;
 
     void Awake()
     {
@@ -22,19 +24,42 @@ public class PlayerController : MonoBehaviour
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
+    void Start()
+    {
+        // Khóa trọng lực khi ở Menu
+        rb.bodyType = RigidbodyType2D.Static;
+    }
+
     void Update()
     {
-        // Khóa điều khiển nếu game đã kết thúc
-        if (GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance.State == GameManager.GameState.Menu) return;
+        if (GameManager.Instance.State == GameManager.GameState.GameOver) return;
 
-        if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+        // Mở khóa trọng lực khi bắt đầu chơi
+        if (GameManager.Instance.State == GameManager.GameState.Playing && rb.bodyType == RigidbodyType2D.Static)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            // Ép một lực nhảy nhẹ để tạo cảm giác bắt đầu
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 0.5f);
+            if (dustParticles != null) dustParticles.Play();
+        }
+
+        bool isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+
+        if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
+            if (!wasGrounded && dustParticles != null && rb.bodyType == RigidbodyType2D.Dynamic)
+            {
+                dustParticles.Play();
+            }
         }
         else
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
+        wasGrounded = isGrounded;
 
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
@@ -50,19 +75,23 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
+
+            if (dustParticles != null)
+            {
+                dustParticles.Play();
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Obstacle") && !GameManager.Instance.IsGameOver)
+        if (collision.CompareTag("Obstacle") && GameManager.Instance.State == GameManager.GameState.Playing)
         {
             if (impulseSource != null)
             {
                 impulseSource.GenerateImpulse();
             }
 
-            // Dừng lực di chuyển hiện tại và vô hiệu hóa trọng lực
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
 

@@ -56,7 +56,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance.State != GameManager.GameState.Playing) return;
 
         if (Time.time >= nextSpawnTime)
         {
