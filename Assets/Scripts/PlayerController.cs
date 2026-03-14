@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.15f;
     [SerializeField] private ParticleSystem dustParticles;
+    [SerializeField] private ParticleSystem crashParticles;
 
     private Rigidbody2D rb;
     private float coyoteTimeCounter;
@@ -26,7 +27,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // Khóa trọng lực khi ở Menu
         rb.bodyType = RigidbodyType2D.Static;
     }
 
@@ -35,11 +35,9 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.Menu) return;
         if (GameManager.Instance.State == GameManager.GameState.GameOver) return;
 
-        // Mở khóa trọng lực khi bắt đầu chơi
         if (GameManager.Instance.State == GameManager.GameState.Playing && rb.bodyType == RigidbodyType2D.Static)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
-            // Ép một lực nhảy nhẹ để tạo cảm giác bắt đầu
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 0.5f);
             if (dustParticles != null) dustParticles.Play();
         }
@@ -87,13 +85,14 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle") && GameManager.Instance.State == GameManager.GameState.Playing)
         {
-            if (impulseSource != null)
-            {
-                impulseSource.GenerateImpulse();
-            }
+            if (impulseSource != null) impulseSource.GenerateImpulse();
+            if (crashParticles != null) crashParticles.Play();
 
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
+
+            // Ẩn Sprite của Player đi để tạo cảm giác bị nổ tung
+            GetComponent<SpriteRenderer>().enabled = false;
 
             GameManager.Instance.GameOver();
         }
