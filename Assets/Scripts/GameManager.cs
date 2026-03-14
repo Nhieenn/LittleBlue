@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -12,12 +12,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float speedIncreaseRate = 0.025f;
     [SerializeField] private float maxSpeed = 3f;
 
+    // Cho phép các script khác kiểm tra trạng thái game
+    public bool IsGameOver { get; private set; }
+
     private Label scoreLabel;
     private VisualElement gameOverPanel;
     private Button restartButton;
-
     private float score;
-    private bool isGameOver;
 
     void Awake()
     {
@@ -28,7 +29,6 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         var root = uiDocument.rootVisualElement;
-
         scoreLabel = root.Q<Label>("ScoreLabel");
         gameOverPanel = root.Q<VisualElement>("GameOverPanel");
         restartButton = root.Q<Button>("RestartButton");
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        isGameOver = false;
+        IsGameOver = false;
         score = 0;
         gameSpeed = 1f;
         gameOverPanel.style.display = DisplayStyle.None;
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!isGameOver)
+        if (!IsGameOver)
         {
             if (gameSpeed < maxSpeed)
             {
@@ -66,8 +66,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        isGameOver = true;
-        Time.timeScale = 0f;
+        IsGameOver = true;
+        gameSpeed = 0f; // Dừng mặt đất và chướng ngại vật
         gameOverPanel.style.display = DisplayStyle.Flex;
     }
 

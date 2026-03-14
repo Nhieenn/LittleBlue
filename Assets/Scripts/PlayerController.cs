@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine; // Nếu Unity báo lỗi dòng này, hãy đổi thành: using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,9 +15,14 @@ public class PlayerController : MonoBehaviour
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
 
+    // Biến lưu trữ nguồn phát rung
+    private CinemachineImpulseSource impulseSource;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        // Lấy component Impulse Source đã gắn trên Player
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     void Update()
@@ -51,6 +57,12 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle"))
         {
+            // Phát ra tín hiệu rung ngay trước khi gọi Game Over
+            if (impulseSource != null)
+            {
+                impulseSource.GenerateImpulse();
+            }
+
             GameManager.Instance.GameOver();
         }
     }
