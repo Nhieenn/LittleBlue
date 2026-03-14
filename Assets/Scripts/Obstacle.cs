@@ -5,6 +5,8 @@ public class Obstacle : MonoBehaviour
     [SerializeField] private float baseSpeed = 5f;
     [SerializeField] private float destroyX = -15f;
 
+    [HideInInspector] public GameObject prefabSource;
+
     void Update()
     {
         float currentSpeed = baseSpeed * GameManager.Instance.gameSpeed;
@@ -12,7 +14,7 @@ public class Obstacle : MonoBehaviour
 
         if (transform.position.x <= destroyX)
         {
-            ObstacleSpawner.Instance.ReleaseObstacle(gameObject);
+            ObstacleSpawner.Instance.ReleaseObstacle(gameObject, prefabSource);
         }
     }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4095288455112999901}
   - component: {fileID: 2881493881295077201}
   - component: {fileID: 167303911246234553}
-  - component: {fileID: 425686424105004890}
   - component: {fileID: -9030777302540688825}
   m_Layer: 6
   m_Name: Ground
@@ -140,21 +139,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &425686424105004890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031127584236182247}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c4896ac40f58264e8e159a7943e8fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
-  speed: 10
-  resetPosition: -20
-  startPosition: 20
 --- !u!114 &-9030777302540688825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,5 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f07c1e3fb7b9742ac4e963137c9008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
-  speed: 10
-  groundWidth: 30
+  baseSpeed: 5
