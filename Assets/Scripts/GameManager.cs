@@ -192,3 +192,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
+
+// --- VFX & Post-Processing Setup (Implemented via Unity Editor) ---
+// Bloom, Color Grading, and Vignette configured in Global Volume Profile.
+// Sprite colors updated to HDR for maximum brightness.
+
+// Planned:
+// [ ] Step 2: Implement Dust Burst & Crash Explosion Particle Systems.
+// [ ] Step 3: Add Trail Renderer to Player.
+// [ ] Step 4: Add Environmental Glow.
+// [ ] Step 5: Adjust BGM/SFX with new VFX.
