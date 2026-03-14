@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Cinemachine; // Nếu Unity báo lỗi dòng này, hãy đổi thành: using Cinemachine;
+using Unity.Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,19 +14,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
-
-    // Biến lưu trữ nguồn phát rung
     private CinemachineImpulseSource impulseSource;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        // Lấy component Impulse Source đã gắn trên Player
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     void Update()
     {
+        // Khóa điều khiển nếu game đã kết thúc
+        if (GameManager.Instance.IsGameOver) return;
+
         if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
             coyoteTimeCounter = coyoteTime;
@@ -55,13 +55,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Obstacle"))
+        if (collision.CompareTag("Obstacle") && !GameManager.Instance.IsGameOver)
         {
-            // Phát ra tín hiệu rung ngay trước khi gọi Game Over
             if (impulseSource != null)
             {
                 impulseSource.GenerateImpulse();
             }
+
+            // Dừng lực di chuyển hiện tại và vô hiệu hóa trọng lực
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
 
             GameManager.Instance.GameOver();
         }
