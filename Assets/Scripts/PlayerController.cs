@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.15f;
     [SerializeField] private ParticleSystem dustParticles;
     [SerializeField] private ParticleSystem crashParticles;
+    [SerializeField] private ParticleSystem trailParticles;
 
     private Rigidbody2D rb;
     private float coyoteTimeCounter;
@@ -90,15 +91,26 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle") && GameManager.Instance.State == GameManager.GameState.Playing)
         {
-            if (impulseSource != null) impulseSource.GenerateImpulse();
-            if (crashParticles != null) crashParticles.Play();
-
-            // Phát tiếng va chạm
-            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.crashClip);
-
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
+            GetComponent<Collider2D>().enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
+
+            // ---> CẬP NHẬT ĐOẠN NÀY <---
+            if (trailParticles != null)
+            {
+                trailParticles.Stop();  // Ngừng xả hạt mới
+                trailParticles.Clear(); // Quét sạch các hạt cũ đang bay lơ lửng
+            }
+
+            if (crashParticles != null)
+            {
+                crashParticles.transform.parent = null;
+                crashParticles.Play();
+            }
+
+            if (impulseSource != null) impulseSource.GenerateImpulse();
+            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.crashClip);
 
             GameManager.Instance.GameOver();
         }
