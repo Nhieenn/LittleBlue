@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float speedIncreaseRate = 0.025f;
     [SerializeField] private float maxSpeed = 3f;
 
-    // Biến tĩnh để ghi nhớ người chơi đang mở game lần đầu hay đang chơi lại
     public static bool isRestarting = false;
 
     private Label scoreLabel;
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private float score;
     private int highScore;
+    private int nextScoreMilestone = 100; // Mốc điểm để phát âm thanh
 
     private bool recordBurstCompleted;
     private bool isBlinking;
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         score = 0;
+        nextScoreMilestone = 100;
         Time.timeScale = 1f;
         recordBurstCompleted = false;
         isBlinking = false;
@@ -78,13 +80,15 @@ public class GameManager : MonoBehaviour
         newRecordLabel.style.display = DisplayStyle.None;
         newRecordLabel.RemoveFromClassList("new-record-blink-active");
 
-        // Kiểm tra xem đây là mở game lần đầu hay là chơi lại
         if (isRestarting)
         {
             State = GameState.Playing;
             mainMenuPanel.style.display = DisplayStyle.None;
             gameSpeed = 1f;
-            isRestarting = false; // Reset biến tĩnh
+            isRestarting = false;
+
+            // Phát nhạc nền khi chơi lại
+            if (AudioManager.Instance != null) AudioManager.Instance.PlayBGM();
         }
         else
         {
@@ -116,6 +120,13 @@ public class GameManager : MonoBehaviour
             int currentScore = Mathf.FloorToInt(score);
             scoreLabel.text = "Score: " + currentScore;
 
+            // Logic phát âm thanh khi đạt mốc điểm (100, 200, 300...)
+            if (currentScore >= nextScoreMilestone)
+            {
+                if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.scoreMilestoneClip);
+                nextScoreMilestone += 100;
+            }
+
             if (currentScore > highScore && currentScore > 0 && !recordBurstCompleted)
             {
                 recordBurstCompleted = true;
@@ -123,6 +134,9 @@ public class GameManager : MonoBehaviour
                 newRecordLabel.style.display = DisplayStyle.Flex;
                 burstTimer = 0f;
                 blinkSubTimer = 0f;
+
+                // Phát âm thanh kỷ lục mới
+                if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.newRecordClip);
             }
 
             if (isBlinking)
@@ -143,7 +157,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Cho phép bấm Space để chơi lại nhanh khi đang Game Over
         if (State == GameState.GameOver)
         {
             if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
@@ -158,12 +171,18 @@ public class GameManager : MonoBehaviour
         State = GameState.Playing;
         mainMenuPanel.style.display = DisplayStyle.None;
         gameSpeed = 1f;
+
+        // Phát nhạc nền khi bắt đầu từ Menu
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayBGM();
     }
 
     public void GameOver()
     {
         State = GameState.GameOver;
         gameSpeed = 0f;
+
+        // Dừng nhạc nền ngay lập tức để tạo không gian tĩnh lặng cho tiếng nổ
+        if (AudioManager.Instance != null) AudioManager.Instance.StopBGM();
 
         if (isBlinking)
         {
@@ -183,22 +202,23 @@ public class GameManager : MonoBehaviour
             gameOverHighScoreLabel.text = "Best: " + highScore;
         }
 
+        // GỌI COROUTINE ĐỂ TRÌ HOÃN UI THAY VÌ HIỂN THỊ NGAY
+        StartCoroutine(ShowGameOverScreenDelay());
+    }
+
+    private IEnumerator ShowGameOverScreenDelay()
+    {
+        // Chờ 0.8 giây (Bạn có thể tăng giảm số này tùy ý thích)
+        yield return new WaitForSeconds(0.8f);
+
+        // Sau khi chờ xong mới bật màn hình đen và bảng điểm
         gameOverPanel.style.display = DisplayStyle.Flex;
     }
 
     private void RestartScene()
     {
-        isRestarting = true; // Đánh dấu là đang chơi lại
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.uiClickClip);
+        isRestarting = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
-
-// --- VFX & Post-Processing Setup (Implemented via Unity Editor) ---
-// Bloom, Color Grading, and Vignette configured in Global Volume Profile.
-// Sprite colors updated to HDR for maximum brightness.
-
-// Planned:
-// [ ] Step 2: Implement Dust Burst & Crash Explosion Particle Systems.
-// [ ] Step 3: Add Trail Renderer to Player.
-// [ ] Step 4: Add Environmental Glow.
-// [ ] Step 5: Adjust BGM/SFX with new VFX.

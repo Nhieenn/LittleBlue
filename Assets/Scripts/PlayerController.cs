@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
     }
 
+    // (Giữ nguyên các biến ở trên) ...
+
     void Update()
     {
         if (GameManager.Instance.State == GameManager.GameState.Menu) return;
@@ -40,6 +42,9 @@ public class PlayerController : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Dynamic;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 0.5f);
             if (dustParticles != null) dustParticles.Play();
+
+            // Phát tiếng nhảy lót đầu tiên
+            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpClip);
         }
 
         bool isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
@@ -74,10 +79,10 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
 
-            if (dustParticles != null)
-            {
-                dustParticles.Play();
-            }
+            if (dustParticles != null) dustParticles.Play();
+
+            // Phát tiếng nhảy
+            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpClip);
         }
     }
 
@@ -88,10 +93,11 @@ public class PlayerController : MonoBehaviour
             if (impulseSource != null) impulseSource.GenerateImpulse();
             if (crashParticles != null) crashParticles.Play();
 
+            // Phát tiếng va chạm
+            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.crashClip);
+
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
-
-            // Ẩn Sprite của Player đi để tạo cảm giác bị nổ tung
             GetComponent<SpriteRenderer>().enabled = false;
 
             GameManager.Instance.GameOver();
