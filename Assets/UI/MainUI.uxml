@@ -1,12 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/MainStyleUI.uss?fileID=7433441132597879392&amp;guid=48e8435b857b82447a6032dad326be0c&amp;type=3#MainStyleUI"/>
     <ui:VisualElement style="flex-grow: 1;">
-        <ui:Label text="Score: 0" name="ScoreLabel" class="score-label"/>
-        <ui:Label text="High Score: 0" name="HighScoreLabel" class="high-score-label"/>
-        <ui:Label text="NEW RECORD!" name="NewRecordLabel" class="new-record-label" style="display: none;"/>
+        <ui:Label text="Score: 0" name="ScoreLabel" class="score-label" style="text-shadow: 2px 2px 0 rgb(0, 0, 0);"/>
+        <ui:Label text="High Score: 0" name="HighScoreLabel" class="high-score-label" style="text-shadow: 2px 0 0 rgb(0, 0, 0);"/>
+        <ui:Label text="NEW RECORD!" name="NewRecordLabel" class="new-record-label" style="display: none; text-shadow: 2px 2px 0 rgb(0, 0, 0);"/>
         <ui:VisualElement name="MainMenuPanel" class="main-menu-panel">
-            <ui:Label text="BLUE SQUARE" class="game-title-label"/>
-            <ui:Label text="PRESS SPACE TO START" class="press-start-label"/>
+            <ui:Label text="BLUE SQUARE" class="game-title-label" style="-unity-text-outline-width: 0; text-shadow: 2px 2px 0 rgb(0, 0, 0); -unity-text-outline-color: rgba(0, 0, 0, 0);"/>
+            <ui:Label text="PRESS SPACE TO START" class="press-start-label" style="text-shadow: 2px 2px 0 rgb(0, 0, 0);"/>
         </ui:VisualElement>
         <ui:VisualElement name="GameOverPanel" class="game-over-panel" style="display: none;">
             <ui:Label text="GAME OVER" class="title-label"/>
