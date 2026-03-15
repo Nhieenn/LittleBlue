@@ -17,5 +17,9 @@ public class Obstacle : MonoBehaviour
         {
             ObstacleSpawner.Instance.ReleaseObstacle(gameObject, prefabSource);
         }
+        if (ThemeManager.Instance != null)
+        {
+            GetComponent<SpriteRenderer>().color = ThemeManager.Instance.CurrentObstacleColor;
+        }
     }
 }

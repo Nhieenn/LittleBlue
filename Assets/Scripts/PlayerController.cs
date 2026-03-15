@@ -85,6 +85,16 @@ public class PlayerController : MonoBehaviour
             // Phát tiếng nhảy
             if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.jumpClip);
         }
+
+        if (ThemeManager.Instance != null && rb.bodyType != RigidbodyType2D.Static)
+        {
+            Color pColor = ThemeManager.Instance.CurrentPlayerColor;
+
+            // Cập nhật màu các hạt phát ra giống hệt màu Player
+            if (dustParticles != null) { var main = dustParticles.main; main.startColor = pColor; }
+            if (crashParticles != null) { var main = crashParticles.main; main.startColor = pColor; }
+            if (trailParticles != null) { var main = trailParticles.main; main.startColor = pColor; }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private VisualElement mainMenuPanel;
     private Button restartButton;
 
-    private float score;
+    public float score { get; private set; }
     private int highScore;
     private int nextScoreMilestone = 100; // Mốc điểm để phát âm thanh
 

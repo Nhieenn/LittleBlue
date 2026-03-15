@@ -10100,7 +10100,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.60784316, g: 0.6431373, b: 0.70980394, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -10355,6 +10355,70 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1123620449}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &944863256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 944863258}
+  - component: {fileID: 944863257}
+  m_Layer: 0
+  m_Name: ThemeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &944863257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944863256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d42856e0a04874cb67520dc5c0ffdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThemeManager
+  themes:
+  - themeName: Day
+    backgroundColor: {r: 0.372549, g: 0.6196079, b: 0.627451, a: 1}
+    playerColor: {r: 0, g: 1.3041189, b: 1.3041189, a: 1}
+    obstacleColor: {r: 1.3041189, g: 1.201835, b: 0.020456769, a: 1}
+    groundColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  - themeName: Noon
+    backgroundColor: {r: 0.8627452, g: 0.1921569, b: 0.1960784, a: 1}
+    playerColor: {r: 0, g: 1.3041189, b: 0, a: 1}
+    obstacleColor: {r: 1.3041189, g: 0, b: 0, a: 1}
+    groundColor: {r: 0.7803922, g: 0.08235294, b: 0.5215687, a: 1}
+  - themeName: Night
+    backgroundColor: {r: 0, g: 0, b: 0.5019608, a: 1}
+    playerColor: {r: 1.3041189, g: 0, b: 1.3041189, a: 1}
+    obstacleColor: {r: 1.3041189, g: 1.3041189, b: 1.3041189, a: 1}
+    groundColor: {r: 0, g: 0, b: 0, a: 1}
+  scorePerTheme: 100
+  mainCamera: {fileID: 519420031}
+  playerSprite: {fileID: 1123620448}
+  groundSprite: {fileID: 1536155966}
+--- !u!4 &944863258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944863256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.39, y: 2.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1123620444
 GameObject:
   m_ObjectHideFlags: 0
@@ -10602,6 +10666,11 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 2, y: -2, z: 0}
+--- !u!212 &1536155966 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2881493881295077201, guid: aa07729b4faea6d45bfab7654be936c3, type: 3}
+  m_PrefabInstance: {fileID: 257006791}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1663728440
 GameObject:
   m_ObjectHideFlags: 0
@@ -15968,3 +16037,4 @@ SceneRoots:
   - {fileID: 2101828251}
   - {fileID: 176561029}
   - {fileID: 1715730130}
+  - {fileID: 944863258}
