@@ -102,7 +102,11 @@ public class GameManager : MonoBehaviour
     {
         if (State == GameState.Menu)
         {
-            if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            bool isTapInput = (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) ||
+                              (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) ||
+                              (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame);
+
+            if (isTapInput)
             {
                 StartGame();
             }
@@ -159,7 +163,11 @@ public class GameManager : MonoBehaviour
 
         if (State == GameState.GameOver)
         {
-            if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            bool isTapInput = (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) ||
+                              (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) ||
+                              (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame);
+
+            if (isTapInput)
             {
                 RestartScene();
             }

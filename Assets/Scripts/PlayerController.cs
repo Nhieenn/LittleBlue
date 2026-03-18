@@ -65,7 +65,11 @@ public class PlayerController : MonoBehaviour
 
         wasGrounded = isGrounded;
 
-        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        bool isTapInput = (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) ||
+                           (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) ||
+                           (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame);
+
+        if (isTapInput)
         {
             jumpBufferCounter = jumpBufferTime;
         }
